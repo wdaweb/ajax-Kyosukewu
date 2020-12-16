@@ -7,12 +7,26 @@
     <title>XMLHttpRequest</title>
     <link rel="shortcut icon" href="#" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+    <style>
+        li{
+            padding: 5px;
+            box-shadow: 0 0 5px #ccc;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        li a{
+            text-decoration: none;
+        }
+        li a:nth-child(odd){
+            color: #f33;
+        }
+    </style>
 </head>
 <body>
     <h1 class="header">XMLHttpRequest</h1>
     <div class="title"></div>
-    <h4></h4>
-    <ul></ul>
+    <h4>活動標題</h4>
+    <ul>活動資訊</ul>
 
 </body>
 </html>
@@ -26,14 +40,43 @@
     ********************************************************/
 
     //宣告一個XMLHttpRequest物件
-
+        let xhr=new XMLHttpRequest
 
     //建立請求的各項設定及實質內容
+        xhr.open('get','https://kktix.com/events.json',true)//預設為TRUE 表示已非同步方式執行
 
 
     //建立得到回應時的各項設定及行為
+        xhr.onload=function(){ //res=response
+            // let type=xhr.getResponseHeader("Content-Type");
+            // let status=xhr.status
+            // let res=xhr.responseText
+            
+            // // console.log(type,status,res)
+            // console.log(type)
+            // console.log(status)
+            // // console.log(res)
+            // let data=JSON.parse(res)//內建解析
+            // console.log(data)
+            // document.write(data.title)
 
+            // console.log(xhr.responseText)
+            let data=xhr.responseText
+            let set=JSON.parse(data)
+            console.log(set)
+            let h4=document.getElementsByTagName('h4')[0]
+            console.log(h4)
+            h4.innerHTML=set.title
+            let events=set.entry
+            let html="";
+            for(let i=0;i<events.length;i++){
+                html=html+`<li><a href='${events[i].url}'>${events[i].title}</a></li>`;
+            }
+            let ul=document.getElementsByTagName('ul')[0]
+            ul.innerHTML=html;
+        }
 
     //送出請求
-
+        xhr.send();
+        // document.getElementById('text').innerHTML=xhr.responseText
     </script>
